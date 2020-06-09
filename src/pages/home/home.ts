@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, IonicPage, MenuController } from 'ionic-angular';
 
-@IonicPage()
+@IonicPage() // habilita referenciar a classe usando string. ex: 'HomePage'
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -16,6 +16,7 @@ export class HomePage {
     this.navCtrl.setRoot('CategoriasPage');
   }
 
+  // ionic livecicle events
   ionViewWillEnter(){
    this.menu.swipeEnable(false);
   }

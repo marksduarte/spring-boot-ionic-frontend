@@ -9,9 +9,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: String = 'HomePage';
+  rootPage: String = 'HomePage'; // na forma de String temos a flexibiliadade do lazy loading sem precisa importar.
 
-  pages: Array<{title: string, component: String}>;
+  pages: Array<{ title: string, component: String }>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
