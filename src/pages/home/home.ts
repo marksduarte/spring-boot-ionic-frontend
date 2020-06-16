@@ -10,30 +10,34 @@ import { AuthService } from '../../services/auth.service';
 })
 export class HomePage {
 
-  creds : CredenciaisDTO = {
+  creds: CredenciaisDTO = {
     email: "",
     senha: ""
   }
 
-  constructor(public navCtrl: NavController, public menu: MenuController, public auth : AuthService) {
+  constructor(public navCtrl: NavController, public menu: MenuController, public auth: AuthService) {
 
   }
 
   login() {
     this.auth.authenticate(this.creds).subscribe(response => {
-      console.log(response.headers.get('Authorization'));
-      this.navCtrl.setRoot('CategoriasPage');
+      console.log(response.headers);
+      let authorization = response.headers.get('Authorization');
+      if (authorization) {
+        this.auth.successfulLogin(authorization);
+        this.navCtrl.setRoot('CategoriasPage');
+      }
     },
-    error => {})
+      error => { })
   }
 
   // ionic livecicle events
-  ionViewWillEnter(){
-   this.menu.swipeEnable(false);
+  ionViewWillEnter() {
+    this.menu.swipeEnable(false);
   }
 
-  ionViewDidLeave(){
-   this.menu.swipeEnable(true);
+  ionViewDidLeave() {
+    this.menu.swipeEnable(true);
   }
 
 }
