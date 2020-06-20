@@ -21,7 +21,6 @@ export class HomePage {
 
   login() {
     this.auth.authenticate(this.creds).subscribe(response => {
-      console.log(response.headers);
       let authorization = response.headers.get('Authorization');
       if (authorization) {
         this.auth.successfulLogin(authorization);
