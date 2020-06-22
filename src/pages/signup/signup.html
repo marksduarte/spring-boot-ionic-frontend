@@ -4,6 +4,8 @@
   </ion-navbar>
 </ion-header>
 
+<!-- O bind do formGroup é feito pelos atributos [formGroup] e formControlName -->
+
 <ion-content padding>
   <form [formGroup]="formGroup" (ngSubmit)="signupUser(); $event.preventDefault()">
     <ion-item>

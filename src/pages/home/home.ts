@@ -27,10 +27,10 @@ export class HomePage {
         this.navCtrl.setRoot('CategoriasPage');
       }
     },
-      error => {})
+      error => { })
   }
 
-  sigup() {
+  signup() {
     this.navCtrl.push('SignupPage');
   }
 
@@ -39,7 +39,7 @@ export class HomePage {
       this.auth.successfulLogin(response.headers.get('Authorization'));
       this.navCtrl.setRoot('CategoriasPage');
     },
-    error => {});
+      error => { });
   }
 
   // ionic livecicle events
