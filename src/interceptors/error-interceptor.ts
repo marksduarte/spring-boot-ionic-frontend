@@ -3,6 +3,7 @@ import { Observable } from "rxjs";
 import { Injectable } from "@angular/core";
 import { StorageService } from "../services/storage.service";
 import { AlertController } from "ionic-angular";
+import { FieldMessage } from "../models/fieldmessage";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -28,6 +29,9 @@ export class ErrorInterceptor implements HttpInterceptor {
         case 403:
           this.handle403();
           break;
+        case 422:
+          this.handle422(errorObj);
+          break;
         default:
           this.handleDefaultError(errorObj);
           break;
@@ -52,6 +56,26 @@ export class ErrorInterceptor implements HttpInterceptor {
   handle403() {
     // caso não autenticado, remove o possível localUser armazenado.
     this.storage.setLocalUser(null);
+  }
+
+  handle422(errorObj) {
+    let alert = this.alertCtrl.create({
+      title: 'Erro 422: Validação',
+      message: this.listErrors(errorObj.errors),
+      enableBackdropDismiss: false,
+      buttons: [
+        {text: 'Ok'}
+      ]
+    });
+    alert.present();
+  }
+
+  private listErrors(messages: FieldMessage[]) : string {
+    let s : string = '';
+    for (var i = 0; i < messages.length; i++) {
+      s = s + '<p><strong>' + messages[i].fieldName + '</strong>: ' + messages[i].message + '</p>';
+    }
+    return s;
   }
 
   handleDefaultError(errorObj) {

@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms'; // Para validar o formulário
 import { CidadeService } from '../../services/domain/cidade.service';
 import { EstadoService } from '../../services/domain/estado.service';
 import { EstadoDTO } from '../../models/estado.dto';
 import { CidadeDTO } from '../../models/cidade.dto';
+import { ClienteService } from '../../services/domain/cliente.service';
 
 @IonicPage()
 @Component({
@@ -22,8 +23,10 @@ export class SignupPage {
     public navParams: NavParams,
     public formBuilder: FormBuilder,
     public cidadeService: CidadeService,
-    public estadoService: EstadoService
-    ) {
+    public estadoService: EstadoService,
+    public clienteService: ClienteService,
+    public alertCtrl: AlertController
+  ) {
     this.formGroup = this.formBuilder.group({
       // Aplicar as validações definidas no backend
       nome: ['Joaquim', [Validators.required, Validators.minLength(5), Validators.maxLength(120)]],
@@ -45,7 +48,26 @@ export class SignupPage {
   }
 
   signupUser() {
+    this.clienteService.insert(this.formGroup.value).subscribe(response => {
+      this.showInsertOK();
+    }, error => { })
+  }
 
+  showInsertOK() {
+    let alert = this.alertCtrl.create({
+      title: 'Sucesso!',
+      message: 'Cadastro efetuado com sucesso',
+      enableBackdropDismiss: false,
+      buttons: [
+        {
+          text: 'OK',
+          handler: () => {
+            this.navCtrl.pop(); // para desempilhar a página de registro de cima da página de login
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   ionViewDidLoad() {
@@ -54,7 +76,7 @@ export class SignupPage {
       this.formGroup.controls.estadoId.setValue(this.estados[0].id);
       this.updateCidades();
     },
-    error => {})
+      error => { })
   }
 
   updateCidades() {
