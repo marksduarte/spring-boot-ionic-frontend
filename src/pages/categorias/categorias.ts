@@ -26,8 +26,8 @@ export class CategoriasPage {
     }, error => { });
   }
 
-  showProdutos() {
-    this.navCtrl.push('ProdutosPage');
+  showProdutos(categoria_id: string) {
+    this.navCtrl.push('ProdutosPage', {categoria_id: categoria_id}); // Passando um objeto como parametro na chamada do push
   }
 
 }
